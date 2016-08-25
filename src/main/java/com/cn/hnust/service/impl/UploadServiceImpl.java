@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.util.Collection;
 
-@Service("downloadService")
+@Service("uploadService")
 public class UploadServiceImpl implements IUploadService {
     public String upload(String filePath) {
         String url = uploadByAws(filePath);
