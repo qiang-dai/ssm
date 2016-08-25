@@ -405,7 +405,7 @@ public class TestMyBatis {
             List<String> tags = new ArrayList<>();
             tags.add(keyWord);
             imojiStickerDoc.setTags(tags);
-            imojiStickerDoc.setId(imageFile.getName());
+            imojiStickerDoc.setId("craw_sticker" + imageFile.getName());
             imojiStickerDoc.setImojiQuery(keyWord);
 
             return imojiStickerDoc;
