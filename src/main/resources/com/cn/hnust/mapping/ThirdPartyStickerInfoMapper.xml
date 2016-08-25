@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.hnust.dao.IThirdPartyStickerInfoDao" >
+
+  <resultMap id="BaseResultMap" type="com.cn.hnust.pojo.ThirdPartyStickerInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="img_url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="img_width" property="imgWidth" jdbcType="INTEGER" />
+    <result column="img_height" property="imgHeight" jdbcType="INTEGER" />
+    <result column="key_word" property="keyWord" jdbcType="VARCHAR" />
+    <result column="img_title" property="imgTitle" jdbcType="VARCHAR" />
+    <result column="img_desc" property="imgDesc" jdbcType="VARCHAR" />
+    <result column="src_url" property="srcUrl" jdbcType="VARCHAR" />
+    <result column="raw_json_data" property="rawJsonData" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectAllInfos" resultMap="BaseResultMap">
+    select * from t_third_party_sticker_info
+  </select>
+
+</mapper>

@@ -1,0 +1,39 @@
+package com.cn.hnust.controller;
+
+import com.cn.hnust.pojo.ThirdPartyStickerInfo;
+import com.cn.hnust.pojo.User;
+import com.cn.hnust.service.IThirdPartyStickerInfoService;
+import com.cn.hnust.service.IUserService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+@Controller
+@RequestMapping("/sticker")
+public class UserController {
+    @Resource
+    private IUserService userService;
+    @Resource
+    private IThirdPartyStickerInfoService thirdPartyStickerInfoService;
+
+    @RequestMapping("/crawl")
+    public String craw(HttpServletRequest request, Model model) {
+        List<ThirdPartyStickerInfo> thirdPartyStickerInfoList = this.thirdPartyStickerInfoService.getAllInfos();
+        for (ThirdPartyStickerInfo thirdPartyStickerInfo : thirdPartyStickerInfoList) {
+            System.out.println(thirdPartyStickerInfo.getImgUrl());
+        }
+        return "";
+    }
+
+    @RequestMapping("/showUser")
+    public String toIndex(HttpServletRequest request,Model model){
+        int userId = Integer.parseInt(request.getParameter("id"));
+        User user = this.userService.getUserById(userId);
+        model.addAttribute("user", user);
+        return "showUser";
+    }
+}
