@@ -30,8 +30,9 @@ public class EsServiceImpl implements IEsService {
 //                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
             // 172.31.28.109    dev         xinmei-backend-test-cluster0
             //172.31.42.37      online      xinmei-backend-search-cluster0
-            Settings settings = Settings.settingsBuilder().put("cluster.name", "xinmei-backend-test-cluster0")
+//            Settings settings = Settings.settingsBuilder().put("cluster.name", "xinmei-backend-test-cluster0")
 //            Settings settings = Settings.settingsBuilder().put("cluster.name", "elasticsearch")
+            Settings settings = Settings.settingsBuilder().put("cluster.name", "xinmei-backend-search-cluster0")
                     .build();
 
             Client client = TransportClient.builder()
