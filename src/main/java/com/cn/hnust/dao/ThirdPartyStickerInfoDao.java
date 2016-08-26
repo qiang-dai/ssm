@@ -4,6 +4,6 @@ import com.cn.hnust.pojo.ThirdPartyStickerInfo;
 
 import java.util.List;
 
-public interface IThirdPartyStickerInfoDao {
+public interface ThirdPartyStickerInfoDao {
     List<ThirdPartyStickerInfo> selectAllInfos();
 }

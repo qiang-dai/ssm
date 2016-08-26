@@ -54,7 +54,7 @@
 
     <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
     <!--<property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
-    <!--<property name="mapperInterface" value="com.cn.hnust.dao.IUserDao" />-->
+    <!--<property name="mapperInterface" value="com.cn.hnust.dao.UserDao />-->
     <!--</bean>-->
 
     <!--&lt;!&ndash; (事务管理)transaction manager, use JtaTransactionManager for global tx &ndash;&gt;-->

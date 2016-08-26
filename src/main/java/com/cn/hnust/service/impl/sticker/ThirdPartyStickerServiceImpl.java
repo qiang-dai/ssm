@@ -1,6 +1,6 @@
 package com.cn.hnust.service.impl.sticker;
 
-import com.cn.hnust.dao.IThirdPartyStickerInfoDao;
+import com.cn.hnust.dao.ThirdPartyStickerInfoDao;
 import com.cn.hnust.pojo.ThirdPartyStickerInfo;
 import com.cn.hnust.pojo.imoji.ImojiStickerDoc;
 import com.cn.hnust.service.IEsService;
@@ -26,7 +26,7 @@ import java.util.List;
 @Service("thirdPartyStickerInfoService")
 public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoService {
     @Resource
-    private IThirdPartyStickerInfoDao thirdPartyStickerInfoDao;
+    private ThirdPartyStickerInfoDao thirdPartyStickerInfoDao;
     //@Override
     public List<ThirdPartyStickerInfo> getAllInfos() {
         // TODO Auto-generated method stub

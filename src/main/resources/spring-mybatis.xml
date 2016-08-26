@@ -53,12 +53,12 @@
 
     <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
         <!--<property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
-        <!--<property name="mapperInterface" value="com.cn.hnust.dao.IUserDao" />-->
+        <!--<property name="mapperInterface" value="com.cn.hnust.dao.UserDao />-->
     <!--</bean>-->
 
     <!--<bean id="thirdPartyStickerInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
     <!--<property name="sqlSessionFactory" ref="sqlSessionFactory" />-->
-    <!--<property name="mapperInterface" value="com.cn.hnust.dao.IThirdPartyStickerInfoDao" />-->
+    <!--<property name="mapperInterface" value="com.cn.hnust.dao.ThirdPartyStickerInfoDao />-->
     <!--</bean>-->
 
     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->

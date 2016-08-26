@@ -2,7 +2,7 @@ package com.cn.hnust.dao;
 
 import com.cn.hnust.pojo.User;
 
-public interface IUserDao {
+public interface UserDao {
     int deleteByPrimaryKey(Integer id);
 
     int insert(User record);
