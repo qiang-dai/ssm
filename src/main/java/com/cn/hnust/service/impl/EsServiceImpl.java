@@ -25,21 +25,23 @@ public class EsServiceImpl implements IEsService {
 
     public Client getEsClient() {
         try {
-//            Client client = TransportClient.builder()
-//                    .build()
-//                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
-            // 172.31.28.109    dev         xinmei-backend-test-cluster0
-            //172.31.42.37      online      xinmei-backend-search-cluster0
-//            Settings settings = Settings.settingsBuilder().put("cluster.name", "xinmei-backend-test-cluster0")
-//            Settings settings = Settings.settingsBuilder().put("cluster.name", "elasticsearch")
-            Settings settings = Settings.settingsBuilder().put("cluster.name", "xinmei-backend-search-cluster0")
+            String clusterName = "xinmei-backend-search-cluster0";
+            String ip = "172.31.42.37";
+            int port = 9300;
+
+            if (false) {
+                clusterName = "xinmei-backend-test-cluster0";
+                ip = "172.31.28.109";
+                port = 9300;
+            }
+
+            Settings settings = Settings.settingsBuilder().put("cluster.name", clusterName)
                     .build();
 
             Client client = TransportClient.builder()
                     .settings(settings)
                     .build()
-//                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("52.32.227.45"), 9300));
-            .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.31.28.109"), 9300));
+                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(ip), port));
 
             return client;
         } catch (UnknownHostException e) {
