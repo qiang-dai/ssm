@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,11 @@ public class EsServiceImpl implements IEsService {
 //                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
             // 172.31.28.109 dev
             //172.31.42.37 online
+            Settings settings = Settings.settingsBuilder().put("cluster.name", "xinmei-backend-test-cluster0")
+                    .build();
+
             Client client = TransportClient.builder()
+                    .settings(settings)
                     .build()
                     .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("172.31.28.109"), 9300));
 
