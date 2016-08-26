@@ -24,8 +24,12 @@ public class EsServiceImpl implements IEsService {
 
     public Client getEsClient() {
         try {
-            Client client = TransportClient.builder().build()
-                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+//            Client client = TransportClient.builder()
+//                    .build()
+//                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
+            Client client = TransportClient.builder()
+                    .build()
+                    .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("api-kikakeyboard.com"), 9300));
 
             return client;
         } catch (UnknownHostException e) {
