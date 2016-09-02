@@ -35,6 +35,9 @@ public class EsServiceImpl implements IEsService {
                 port = 9300;
             }
 
+            System.out.println("clusterName= " + clusterName);
+            System.out.println("ip= " + ip);
+
             Settings settings = Settings.settingsBuilder().put("cluster.name", clusterName)
                     .build();
 
