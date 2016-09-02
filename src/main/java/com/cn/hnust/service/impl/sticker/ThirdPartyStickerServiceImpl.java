@@ -51,7 +51,7 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                     imageLocalFile,
                     thirdPartyStickerInfo.getKeyWord());
             IEsService esService = new EsServiceImpl();
-            esService.Add("sticker_index", "sticker_type", doc);
+            esService.Add("sticker_index_1", "sticker_type", doc);
         }
     }
 

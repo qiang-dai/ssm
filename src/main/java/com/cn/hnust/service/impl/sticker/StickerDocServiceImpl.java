@@ -233,6 +233,8 @@ public class StickerDocServiceImpl implements IStickerDocService{
             imojiStickerDoc.setId("crawl_sticker" + imageLocalFile.getName());
             imojiStickerDoc.setImojiQuery(keyWord);
 
+            System.out.println("keyWord= " + keyWord);
+
             return imojiStickerDoc;
         }catch (IOException e) {
             return null;
