@@ -29,7 +29,7 @@ public class EsServiceImpl implements IEsService {
             String ip = "172.31.42.37";
             int port = 9300;
 
-            if (false) {
+            if (true) {
                 clusterName = "xinmei-backend-test-cluster0";
                 ip = "172.31.28.109";
                 port = 9300;
