@@ -236,7 +236,7 @@ public class StickerDocServiceImpl implements IStickerDocService{
             System.out.println("keyWord= " + keyWord);
 
             return imojiStickerDoc;
-        }catch (IOException e) {
+        }catch (Exception e) {
             return null;
         }
     }
