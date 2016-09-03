@@ -19,8 +19,12 @@ public class EsServiceImpl implements IEsService {
 
     public void Add(String index, String docType, EsObject doc){
         Client client = getEsClient();
-        IndexResponse indexResponse = client.prepareIndex(index, docType, doc.getId()).setSource(gson.toJson(doc)).get();
-        System.out.println(indexResponse);
+        try {
+            IndexResponse indexResponse = client.prepareIndex(index, docType, doc.getId()).setSource(gson.toJson(doc)).get();
+            System.out.println(indexResponse);
+        } catch (Exception e) {
+            //pass
+        }
     }
 
     public Client getEsClient() {
