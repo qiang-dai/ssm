@@ -36,11 +36,17 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
     public void processTask() {
         List<ThirdPartyStickerInfo> thirdPartyStickerInfoList = getAllInfos();
         System.out.println("\nTotal mysql cnt=" + thirdPartyStickerInfoList.size());
+        Integer widthBadCnt = 0;
+        Integer downloadBadCnt = 0;
+        Integer getDocBadCnt = 0;
+        Integer successCnt = 0;
 
         for (ThirdPartyStickerInfo thirdPartyStickerInfo : thirdPartyStickerInfoList) {
             if (thirdPartyStickerInfo.getImgWidth() < 300 || thirdPartyStickerInfo.getImgWidth() > 500) {
                 System.out.println("\nwidth not valid:" + thirdPartyStickerInfo.getImgWidth());
                 System.out.println(thirdPartyStickerInfo);
+
+                widthBadCnt += 1;
 
                 continue;
             }
@@ -49,6 +55,8 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
             if (imageLocalFile == null || imageLocalFile.length() == 0) {
                 System.out.println("\ndownload failed:");
                 System.out.println(thirdPartyStickerInfo);
+
+                downloadBadCnt += 1;
                 continue;
             }
 
@@ -60,11 +68,19 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
             if (doc != null) {
                 IEsService esService = new EsServiceImpl();
                 esService.Add("sticker_index_1", "sticker_type", doc);
+
+                successCnt += 1;
             } else {
+
+                getDocBadCnt += 1;
                 System.out.println("\nimageFile/getDoc process failed!");
                 System.out.println(thirdPartyStickerInfo);
             }
         }
+        System.out.println("widthBadCnt= " + widthBadCnt);
+        System.out.println("downloadBadCnt= " + downloadBadCnt);
+        System.out.println("getDocBadCnt= " + getDocBadCnt);
+        System.out.println("successCnt= " + successCnt);
     }
 
     private String getFileName(String url) {
