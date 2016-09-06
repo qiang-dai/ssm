@@ -79,11 +79,11 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                 System.out.println("\nimageFile/getDoc process failed!");
                 System.out.println(thirdPartyStickerInfo);
             }
+            System.out.println("widthBadCnt= " + widthBadCnt);
+            System.out.println("downloadBadCnt= " + downloadBadCnt);
+            System.out.println("getDocBadCnt= " + getDocBadCnt);
+            System.out.println("successCnt= " + successCnt);
         }
-        System.out.println("widthBadCnt= " + widthBadCnt);
-        System.out.println("downloadBadCnt= " + downloadBadCnt);
-        System.out.println("getDocBadCnt= " + getDocBadCnt);
-        System.out.println("successCnt= " + successCnt);
     }
 
     private String getFileName(String url) {
