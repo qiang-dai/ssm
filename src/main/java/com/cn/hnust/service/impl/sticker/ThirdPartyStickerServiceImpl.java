@@ -35,13 +35,20 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
 
     public void processTask() {
         List<ThirdPartyStickerInfo> thirdPartyStickerInfoList = getAllInfos();
+        System.out.println("\nTotal mysql cnt=" + thirdPartyStickerInfoList.size());
+
         for (ThirdPartyStickerInfo thirdPartyStickerInfo : thirdPartyStickerInfoList) {
             if (thirdPartyStickerInfo.getImgWidth() < 300 || thirdPartyStickerInfo.getImgWidth() > 500) {
+                System.out.println("\nwidth not valid:" + thirdPartyStickerInfo.getImgWidth());
+                System.out.println(thirdPartyStickerInfo);
+
                 continue;
             }
             //下载
             File imageLocalFile = download(thirdPartyStickerInfo.getImgUrl());
             if (imageLocalFile == null || imageLocalFile.length() == 0) {
+                System.out.println("\ndownload failed:");
+                System.out.println(thirdPartyStickerInfo);
                 continue;
             }
 
@@ -53,6 +60,9 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
             if (doc != null) {
                 IEsService esService = new EsServiceImpl();
                 esService.Add("sticker_index_1", "sticker_type", doc);
+            } else {
+                System.out.println("\nimageFile/getDoc process failed!");
+                System.out.println(thirdPartyStickerInfo);
             }
         }
     }
