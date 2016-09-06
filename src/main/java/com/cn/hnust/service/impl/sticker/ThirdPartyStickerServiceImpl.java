@@ -61,10 +61,13 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
             }
 
             IStickerDocService stickerDocService = new StickerDocServiceImpl();
+            String md5 = getMd5ByFile(imageLocalFile.toString());
+
             ImojiStickerDoc doc = stickerDocService.getDoc(
                     thirdPartyStickerInfo.getImgUrl(),
                     imageLocalFile,
-                    thirdPartyStickerInfo.getKeyWord());
+                    thirdPartyStickerInfo.getKeyWord(),
+                    md5);
             if (doc != null) {
                 IEsService esService = new EsServiceImpl();
                 esService.Add("sticker_index_1", "sticker_type", doc);
@@ -172,13 +175,15 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                     fos.close();
 
                     //rename
-                    String md5_name = getMd5ByFile(file.getAbsolutePath());
-                    md5_name = "craw_sticker/"+md5_name;
+                    //String md5_name = getMd5ByFile(file.getAbsolutePath());
+                    //md5_name = "craw_sticker/"+md5_name;
 
-                    File newFile = new File(md5_name);
-                    file.renameTo(newFile);
+                    //File newFile = new File(md5_name);
+                    //file.renameTo(newFile);
 
-                    return newFile;
+                    //return newFile;
+                    //dstFile = newFile;
+                    dstFile = file;
                 }
             }
             httpclient.close();

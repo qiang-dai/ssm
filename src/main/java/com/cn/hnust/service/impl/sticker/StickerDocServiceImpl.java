@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * Created by DaiQiang on 16/8/26.
  */
 public class StickerDocServiceImpl implements IStickerDocService{
-    public ImojiStickerDoc getDoc(String url, File imageLocalFile, String keyWord) {
+    public ImojiStickerDoc getDoc(String url, File imageLocalFile, String keyWord, String md5) {
         String docTemplate =
                 "{" +
                         "    \"updateTs\": 1466711016787, " +
@@ -230,7 +229,7 @@ public class StickerDocServiceImpl implements IStickerDocService{
             List<String> tags = new ArrayList<>();
             tags.add(keyWord);
             imojiStickerDoc.setTags(tags);
-            imojiStickerDoc.setId("crawl_sticker" + imageLocalFile.getName());
+            imojiStickerDoc.setId("crawl_sticker" + md5);
             imojiStickerDoc.setImojiQuery(keyWord);
 
             System.out.println("keyWord= " + keyWord);
