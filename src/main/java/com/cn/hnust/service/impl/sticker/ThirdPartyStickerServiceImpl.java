@@ -42,47 +42,52 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         Integer successCnt = 0;
 
         for (ThirdPartyStickerInfo thirdPartyStickerInfo : thirdPartyStickerInfoList) {
-            if (thirdPartyStickerInfo.getImgWidth() < 300 || thirdPartyStickerInfo.getImgWidth() > 500) {
-                System.out.println("\nwidth not valid:" + thirdPartyStickerInfo.getImgWidth());
-                System.out.println(thirdPartyStickerInfo);
+            try {
+                if (thirdPartyStickerInfo.getImgWidth() < 300 || thirdPartyStickerInfo.getImgWidth() > 500) {
+                    System.out.println("\nwidth not valid:" + thirdPartyStickerInfo.getImgWidth());
+                    System.out.println(thirdPartyStickerInfo);
 
-                widthBadCnt += 1;
+                    widthBadCnt += 1;
 
-                continue;
+                    continue;
+                }
+                //下载
+                File imageLocalFile = download(thirdPartyStickerInfo.getImgUrl());
+                if (imageLocalFile == null || imageLocalFile.length() == 0) {
+                    System.out.println("\ndownload failed:");
+                    System.out.println(thirdPartyStickerInfo);
+
+                    downloadBadCnt += 1;
+                    continue;
+                }
+
+                IStickerDocService stickerDocService = new StickerDocServiceImpl();
+                String md5 = getMd5ByFile(imageLocalFile.toString());
+
+                ImojiStickerDoc doc = stickerDocService.getDoc(
+                        thirdPartyStickerInfo.getImgUrl(),
+                        imageLocalFile,
+                        thirdPartyStickerInfo.getKeyWord(),
+                        md5);
+                if (doc != null) {
+                    IEsService esService = new EsServiceImpl();
+                    esService.Add("sticker_index_1", "sticker_type", doc);
+
+                    successCnt += 1;
+                } else {
+
+                    getDocBadCnt += 1;
+                    System.out.println("\nimageFile/getDoc process failed!");
+                    System.out.println(thirdPartyStickerInfo);
+                }
+                System.out.println("widthBadCnt= " + widthBadCnt);
+                System.out.println("downloadBadCnt= " + downloadBadCnt);
+                System.out.println("getDocBadCnt= " + getDocBadCnt);
+                System.out.println("successCnt= " + successCnt);
+            } catch (Exception e) {
+                System.out.println("error!");
             }
-            //下载
-            File imageLocalFile = download(thirdPartyStickerInfo.getImgUrl());
-            if (imageLocalFile == null || imageLocalFile.length() == 0) {
-                System.out.println("\ndownload failed:");
-                System.out.println(thirdPartyStickerInfo);
 
-                downloadBadCnt += 1;
-                continue;
-            }
-
-            IStickerDocService stickerDocService = new StickerDocServiceImpl();
-            String md5 = getMd5ByFile(imageLocalFile.toString());
-
-            ImojiStickerDoc doc = stickerDocService.getDoc(
-                    thirdPartyStickerInfo.getImgUrl(),
-                    imageLocalFile,
-                    thirdPartyStickerInfo.getKeyWord(),
-                    md5);
-            if (doc != null) {
-                IEsService esService = new EsServiceImpl();
-                esService.Add("sticker_index_1", "sticker_type", doc);
-
-                successCnt += 1;
-            } else {
-
-                getDocBadCnt += 1;
-                System.out.println("\nimageFile/getDoc process failed!");
-                System.out.println(thirdPartyStickerInfo);
-            }
-            System.out.println("widthBadCnt= " + widthBadCnt);
-            System.out.println("downloadBadCnt= " + downloadBadCnt);
-            System.out.println("getDocBadCnt= " + getDocBadCnt);
-            System.out.println("successCnt= " + successCnt);
         }
     }
 
