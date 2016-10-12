@@ -41,8 +41,9 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         Integer getDocBadCnt = 0;
         Integer successCnt = 0;
 
-        for (ThirdPartyStickerInfo thirdPartyStickerInfo : thirdPartyStickerInfoList) {
+        for (int i = 0; i < thirdPartyStickerInfoList.size(); i++) {
             try {
+                ThirdPartyStickerInfo thirdPartyStickerInfo = thirdPartyStickerInfoList.get(i);
                 if (thirdPartyStickerInfo.getImgWidth() < 300 || thirdPartyStickerInfo.getImgWidth() > 500) {
                     System.out.println("\nwidth not valid:" + thirdPartyStickerInfo.getImgWidth());
                     System.out.println(thirdPartyStickerInfo);
@@ -85,7 +86,9 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                 System.out.println("getDocBadCnt= " + getDocBadCnt);
                 System.out.println("successCnt= " + successCnt);
 
-                System.gc();
+                if (i == 100) {
+                    System.gc();
+                }
             } catch (Exception e) {
                 System.out.println("error!");
             }
