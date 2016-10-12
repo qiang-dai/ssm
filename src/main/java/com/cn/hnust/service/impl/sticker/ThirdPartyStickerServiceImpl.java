@@ -86,7 +86,7 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                 System.out.println("getDocBadCnt= " + getDocBadCnt);
                 System.out.println("successCnt= " + successCnt);
 
-                if (i == 100) {
+                if (i % 100 == 0) {
                     System.gc();
                 }
             } catch (Exception e) {
