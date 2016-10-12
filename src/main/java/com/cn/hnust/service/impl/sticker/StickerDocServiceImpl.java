@@ -160,6 +160,9 @@ public class StickerDocServiceImpl implements IStickerDocService{
                         "                }, " +
                         "                \"960\": {" +
                         "                    \"url\": \"IMAGE_URL\"" +
+                        "                    \"width\": IMAGE_WIDTH, " +
+                        "                    \"fileSize\": IMAGE_FILESIZE, " +
+                        "                    \"height\": IMAGE_HEIGHT" +
                         "                }, " +
                         "                \"1200\": {" +
                         "                    \"url\": \"IMAGE_URL\", " +
@@ -195,6 +198,9 @@ public class StickerDocServiceImpl implements IStickerDocService{
                         "                }, " +
                         "                \"960\": {" +
                         "                    \"url\": \"IMAGE_URL\"" +
+                        "                    \"width\": IMAGE_WIDTH, " +
+                        "                    \"fileSize\": IMAGE_FILESIZE, " +
+                        "                    \"height\": IMAGE_HEIGHT" +
                         "                }, " +
                         "                \"1200\": {" +
                         "                    \"url\": \"IMAGE_URL\", " +
