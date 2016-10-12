@@ -27,7 +27,8 @@ public class ImojiStickerDoc extends EsObject {
     private ImojiImageCells images;
     private long docDownloadCount;
     private long totalDownloadCount;
-    private float quality;
+    private double quality;
     private long updateTs;
     private String imojiQuery;
+    private double click;
 }
