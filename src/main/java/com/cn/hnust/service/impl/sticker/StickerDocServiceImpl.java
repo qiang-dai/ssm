@@ -213,6 +213,7 @@ public class StickerDocServiceImpl implements IStickerDocService{
                         "    }, " +
                         "    \"totalDownloadCount\": 0, " +
                         "    \"quality\": 0, " +
+                        "    \"click\": 0, " +
                         "    \"id\": \"3c4e6e04-6176-45ac-af85-4d546d4fa1f1\"" +
                         "}";
 
