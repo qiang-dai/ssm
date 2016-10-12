@@ -9,6 +9,7 @@ import com.cn.hnust.service.IThirdPartyStickerInfoService;
 import com.cn.hnust.service.impl.EsServiceImpl;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -181,10 +182,14 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         File dstFile = null;
         try {
             httpclient = HttpClients.createDefault();
-            // 创建httpget.
-            HttpGet httpget = new HttpGet(url);
+            // 创建httpGet.
+            HttpGet httpGet = new HttpGet(url);
+            RequestConfig requestConfig = RequestConfig.custom()
+                    .setConnectTimeout(5000).setConnectionRequestTimeout(1000)
+                    .setSocketTimeout(5000).build();
+            httpGet.setConfig(requestConfig);
             // 执行get请求.
-            response = httpclient.execute(httpget);
+            response = httpclient.execute(httpGet);
             Header header = response.getFirstHeader("content-length");
             System.out.println(header.getValue());
             String length = header.getValue();
