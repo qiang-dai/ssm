@@ -43,8 +43,9 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
             while (line!=null)
             {
                 System.out.println(line);
-                line=in.readLine();
                 val = Integer.valueOf(line);
+
+                line=in.readLine();
             }
             in.close();
         } catch (Exception e) {
