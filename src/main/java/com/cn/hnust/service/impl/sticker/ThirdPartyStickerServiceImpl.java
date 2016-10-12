@@ -33,6 +33,37 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         return this.thirdPartyStickerInfoDao.selectAllInfos();
     }
 
+    private Integer readIndex() {
+        Integer val = 0;
+        String line="";
+        String fileName = "index.txt";
+        try {
+            BufferedReader in=new BufferedReader(new FileReader(fileName));
+            line=in.readLine();
+            while (line!=null)
+            {
+                System.out.println(line);
+                line=in.readLine();
+                val = Integer.valueOf(line);
+            }
+            in.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return val;
+
+    }
+    private Boolean writeIndex(Integer i) {
+        String fileName = "index.txt";
+        try {
+            FileWriter writer = new FileWriter(fileName);
+            writer.write(i.toString());
+            writer.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return true;
+    }
     public void processTask() {
         List<ThirdPartyStickerInfo> thirdPartyStickerInfoList = getAllInfos();
         System.out.println("\nTotal mysql cnt=" + thirdPartyStickerInfoList.size());
@@ -41,7 +72,12 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         Integer getDocBadCnt = 0;
         Integer successCnt = 0;
 
-        for (int i = 0; i < thirdPartyStickerInfoList.size(); i++) {
+
+        Integer val = readIndex();
+
+        for (int i = val; i < thirdPartyStickerInfoList.size(); i++) {
+            writeIndex(i);
+
             try {
                 ThirdPartyStickerInfo thirdPartyStickerInfo = thirdPartyStickerInfoList.get(i);
                 if (thirdPartyStickerInfo.getImgWidth() < 300 || thirdPartyStickerInfo.getImgWidth() > 500) {
