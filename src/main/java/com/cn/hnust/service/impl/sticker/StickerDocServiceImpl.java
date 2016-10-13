@@ -14,7 +14,12 @@ import java.util.List;
  * Created by DaiQiang on 16/8/26.
  */
 public class StickerDocServiceImpl implements IStickerDocService{
-    public ImojiStickerDoc getDoc(String url, File imageLocalFile, String keyWord, String md5) {
+    public ImojiStickerDoc getDoc(String url,
+                                  File imageLocalFile,
+                                  String keyWord,
+                                  String md5,
+                                  Double click,
+                                  String prefixId) {
         String docTemplate =
                 "{" +
                         "    \"updateTs\": 1466711016787, " +
@@ -213,7 +218,7 @@ public class StickerDocServiceImpl implements IStickerDocService{
                         "    }, " +
                         "    \"totalDownloadCount\": 0, " +
                         "    \"quality\": 0.0, " +
-                        "    \"click\": 0.0, " +
+                        "    \"click\": CLICK_VALUE, " +
                         "    \"id\": \"3c4e6e04-6176-45ac-af85-4d546d4fa1f1\"" +
                         "}";
 
@@ -222,21 +227,21 @@ public class StickerDocServiceImpl implements IStickerDocService{
         try {
             BufferedImage image = ImageIO.read(imageLocalFile);
 
-            //IUploadService uploadService = new UploadServiceImpl();
-            //url = uploadService.upload(imageLocalFile.toString());
-
             String doc = docTemplate;
             doc = doc.replaceAll("IMAGE_FILESIZE", String.valueOf(imageLocalFile.length()));
             doc = doc.replaceAll("IMAGE_WIDTH", String.valueOf(image.getWidth()));
             doc = doc.replaceAll("IMAGE_HEIGHT", String.valueOf(image.getHeight()));
             doc = doc.replaceAll("IMAGE_URL", url);
+            doc = doc.replaceAll("CLICK_VALUE", click.toString());
             Gson gson = new Gson();
 
             ImojiStickerDoc imojiStickerDoc = gson.fromJson(doc, ImojiStickerDoc.class);
             List<String> tags = new ArrayList<>();
             tags.add(keyWord);
             imojiStickerDoc.setTags(tags);
-            imojiStickerDoc.setId("crawl_sticker" + md5);
+
+            prefixId = prefixId.replace("/", "");
+            imojiStickerDoc.setId(prefixId + md5);
             imojiStickerDoc.setImojiQuery(keyWord);
 
             System.out.println("keyWord= " + keyWord);

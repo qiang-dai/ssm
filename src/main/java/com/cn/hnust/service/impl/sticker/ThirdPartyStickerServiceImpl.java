@@ -17,11 +17,13 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.*;
 import java.math.BigInteger;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("thirdPartyStickerInfoService")
@@ -34,6 +36,28 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         return this.thirdPartyStickerInfoDao.selectAllInfos();
     }
 
+    private List<String> readLocalUrls() {
+        List<String> fileUrls = new ArrayList<>();
+
+        String fileName = "sticker_files.txt";
+        try {
+            String line="";
+            BufferedReader in=new BufferedReader(new FileReader(fileName));
+            line=in.readLine();
+            while (line!=null)
+            {
+                System.out.println(line);
+                if (line.length() > 0) {
+                    fileUrls.add(line);
+                }
+                line=in.readLine();
+            }
+            in.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return fileUrls;
+    }
     private Integer readIndex() {
         Integer val = 0;
         String line="";
@@ -66,6 +90,75 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         }
         return true;
     }
+
+    public void traverseFolder2(String path, List<String> fileUrls) {
+
+        File file = new File(path);
+        if (file.exists()) {
+            File[] files = file.listFiles();
+            if (files.length == 0) {
+                System.out.println("文件夹是空的!");
+                return;
+            } else {
+                for (File file2 : files) {
+                    if (file2.isDirectory()) {
+                        System.out.println("文件夹:" + file2.getAbsolutePath());
+                        traverseFolder2(file2.getAbsolutePath(), fileUrls);
+                    } else {
+                        System.out.println("文件:" + file2.getAbsolutePath());
+                    }
+                }
+            }
+        } else {
+            System.out.println("文件不存在!");
+        }
+    }
+
+    private String getKeyword(String url) {
+        String[] arrPacks = url.split("/");
+        if (arrPacks.length > 2) {
+            String keyword = arrPacks[arrPacks.length - 2];
+            return keyword;
+        }
+        return "";
+    }
+    public void localTask() {
+        List<String> fileUrls = readLocalUrls();
+        for (String url : fileUrls) {
+            String keyword = getKeyword(url);
+
+            //下载
+            String prefixId = "kika_sticker";
+            File imageLocalFile = download(url, prefixId + "/");
+            if (imageLocalFile == null || imageLocalFile.length() == 0) {
+                System.out.println("\nlocal download failed:");
+                System.out.println(url);
+
+                continue;
+            }
+
+            IStickerDocService stickerDocService = new StickerDocServiceImpl();
+            String md5 = getMd5ByFile(imageLocalFile.toString());
+
+
+            Double click = 5.0;
+            ImojiStickerDoc doc = stickerDocService.getDoc(
+                    url,
+                    imageLocalFile,
+                    keyword,
+                    md5,
+                    click,
+                    prefixId);
+            if (doc != null) {
+                IEsService esService = new EsServiceImpl();
+                esService.Add("sticker_index_1", "sticker_type", doc);
+            } else {
+                System.out.println("\nlocal imageFile/getDoc process failed!");
+            }
+        }
+
+    }
+
     public void processTask() {
         List<ThirdPartyStickerInfo> thirdPartyStickerInfoList = getAllInfos();
         System.out.println("\nTotal mysql cnt=" + thirdPartyStickerInfoList.size());
@@ -91,7 +184,8 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                     continue;
                 }
                 //下载
-                File imageLocalFile = download(thirdPartyStickerInfo.getImgUrl());
+                String prefixId = "kika_sticker";
+                File imageLocalFile = download(thirdPartyStickerInfo.getImgUrl(), prefixId + "/");
                 if (imageLocalFile == null || imageLocalFile.length() == 0) {
                     System.out.println("\ndownload failed:");
                     System.out.println(thirdPartyStickerInfo);
@@ -107,7 +201,9 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                         thirdPartyStickerInfo.getImgUrl(),
                         imageLocalFile,
                         thirdPartyStickerInfo.getKeyWord(),
-                        md5);
+                        md5,
+                        0.1,
+                        prefixId);
                 if (doc != null) {
                     IEsService esService = new EsServiceImpl();
                     esService.Add("sticker_index_1", "sticker_type", doc);
@@ -176,7 +272,7 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         return value;
     }
 
-    public File download(String url) {
+    public File download(String url, String prefix_id) {
         CloseableHttpClient httpclient = null;
         CloseableHttpResponse response = null;
         File dstFile = null;
@@ -204,7 +300,7 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                 // 打印响应内容
                 //System.out.println("Response content: " + EntityUtils.toString(entity));
                 //Save to file
-                File file = new File("craw_sticker/" + getFileName(url));
+                File file = new File(prefix_id + getFileName(url));
                 file.mkdirs();
 
                 System.out.println("suffix= " + getSuffix(file.getName()));

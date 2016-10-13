@@ -24,6 +24,12 @@ public class UserController {
         return "showUser";
     }
 
+    @RequestMapping("/local")
+    public String local(HttpServletRequest request, Model model) {
+        thirdPartyStickerInfoService.localTask();
+        return "showUser";
+    }
+
     @RequestMapping("/showUser")
     public String toIndex(HttpServletRequest request,Model model){
         int userId = Integer.parseInt(request.getParameter("id"));

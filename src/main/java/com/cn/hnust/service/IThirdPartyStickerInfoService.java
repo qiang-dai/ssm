@@ -7,4 +7,5 @@ import java.util.List;
 public interface IThirdPartyStickerInfoService {
     public List<ThirdPartyStickerInfo> getAllInfos();
     public void processTask();
+    public void localTask();
 }
