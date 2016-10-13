@@ -118,6 +118,7 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
         String[] arrPacks = url.split("/");
         if (arrPacks.length > 2) {
             String keyword = arrPacks[arrPacks.length - 2];
+            keyword = keyword.replace("_", " ");
             return keyword;
         }
         return "";
