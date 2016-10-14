@@ -301,7 +301,7 @@ public class ThirdPartyStickerServiceImpl implements IThirdPartyStickerInfoServi
                 // 打印响应内容
                 //System.out.println("Response content: " + EntityUtils.toString(entity));
                 //Save to file
-                File file = new File(prefix_id + getFileName(url));
+                File file = new File("tmp/" + prefix_id + getFileName(url));
                 file.mkdirs();
 
                 System.out.println("suffix= " + getSuffix(file.getName()));
